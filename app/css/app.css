@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+  padding: 0;
+}
+
+html, body, #container {
+  height: 100%;
+}
+
+.panel {
+  background-color: #fafafa;
+  border: solid 1px #ccc;
+  border-radius: 2px;
+  font-family: 'Arial', sans-serif;
+  padding: 10px;
+}
+
+.bpmn-icon-task.yellow {
+  color: #ffc800 !important;
+  
+}
+
+#hint {
+  bottom: 20px;
+  left: 20px;
+  position: absolute;
+}
+
+#quality-assurance {
+  color: #111;
+  left: 30%;
+  position: absolute;
+  top: 75%;
+  transform: translate(-50%, -50%);
+}
+
+.hidden {
+  display: none;
+}
+
+.foo:before {
+  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/cust-housegreening-pup%402x-4cf7ada520811031a97bee12c06d9e9367f811bd86255ea60d40aa809cf58801.jpg');
+}

@@ -1,0 +1,94 @@
+{
+  "name": "DataState",
+  "uri": "http://some-company/schema/bpmn/ds",
+  "prefix": "ds",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "types": [
+    {
+      "name": "DataState",
+      "extends": [
+		"bpmn:DataStoreReference",
+		"bpmn:DataObjectReference"
+      ],
+      "properties": [
+        {
+          "name": "available",
+          "isAttr": true,
+          "type": "Integer"
+        },
+		{
+          "name": "isInput",
+          "isAttr": false,
+          "type": "Integer"
+        },
+		{
+          "name": "isOutput",
+          "isAttr": false,
+          "type": "Integer"
+        },
+		{
+          "name": "risk",
+          "isAttr": false,
+          "type": "Integer"
+        },
+		{
+          "name": "quality",
+          "isAttr": false,
+          "type": "Integer"
+        },
+		{
+          "name": "isParent",
+          "isAttr": true,
+          "type": "Integer"
+        },
+		{
+          "name": "isAlternative",
+          "isAttr": true,
+          "type": "Integer"
+        },
+		{
+          "name": "offset",
+          "isAttr": true,
+          "type": "Integer"
+        },
+		{
+          "name": "child",
+          "isAttr": false,
+          "type": "DataObjectReference"
+        },
+		{
+          "name": "fatherr",
+          "isAttr": true,
+          "type": "DataObjectReference"
+        },
+		{
+          "name": "boss",
+          "isAttr": false,
+          "type": "DataObjectReference"
+        },
+		{
+          "name": "noAlternative",
+          "isAttr": true,
+          "type": "Integer"
+        }
+      ]
+    },
+	{
+      "name": "DataErrorDriven",
+      "extends": [
+		"bpmn:StartEvent"
+      ],
+      "properties": [
+        {
+          "name": "available",
+          "isAttr": true,
+          "type": "Integer"
+        }
+      ]
+    }
+  ],
+  "emumerations": [],
+  "associations": []
+}
