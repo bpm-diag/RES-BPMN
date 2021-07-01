@@ -109,7 +109,8 @@ bpmnModeler.importXML(diagramXML, (err) => {
       return;
     }
 
-    //var businessObject = getBusinessObject(element);  
+    var businessObject = getBusinessObject(element);  
+    console.log(businessObject)
      
 
   });
@@ -137,10 +138,81 @@ function checkDataState() {
 
 
 
-function checkConnection() {
+function checkConnection_2() {
 
   var b = 0;
+  var c = 0;
 
+  var arr = [];
+  var arrr = [];
+
+  var elements = elementRegistry.filter(function(element) {
+  if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
+
+      var businessObject = getBusinessObject(element);
+
+      
+
+      if (businessObject.available==1 && (!businessObject.isInput && !businessObject.isOutput) && (businessObject.boss==1 || businessObject.boss==undefined) && element.type != "label") {
+
+
+        var incoming = element.incoming;
+        var outgoing = element.outgoing;
+
+        b=1;
+        c=1;
+
+      
+
+        for (let i=0; i<element.outgoing.length; i++) {
+
+
+            if(element.outgoing[i].type=="bpmn:DataInputAssociation") { 
+
+              b=0;
+            }
+
+                
+        } 
+
+
+        for (let i=0; i<element.incoming.length; i++) {
+
+
+            if(element.incoming[i].type=="bpmn:DataOutputAssociation") { 
+
+              c=0;
+             
+            }
+
+                
+        }
+        
+      } 
+
+      arr.push(b);
+      arr.push(c);
+  }  
+
+
+
+  });  
+
+  const isAllZero1 = arr.every(item => item === 0);
+  const isAllZero2 = arrr.every(item => item === 0);
+
+  if(isAllZero1 && isAllZero2) return 0;
+
+
+  return 1; }
+
+
+
+
+function checkConnection_1() {
+
+  var b = 0;
+  
   var arr = [];
 
   var elements = elementRegistry.filter(function(element) {
@@ -169,7 +241,7 @@ function checkConnection() {
             }
 
                 
-        }
+        } 
 
 
         for (let i=0; i<element.incoming.length; i++) {
@@ -184,7 +256,9 @@ function checkConnection() {
                 
         }
         
-      } arr.push(b); 
+      } 
+
+      arr.push(b);
   }  
 
 
@@ -198,6 +272,7 @@ function checkConnection() {
 
   return 1; }
         
+        
     
 function checkInputOutput() {
 
@@ -207,7 +282,7 @@ function checkInputOutput() {
    var elements = elementRegistry.filter(function(element) {
   if(is(element, 'bpmn:DataObjectReference')) {
 
-      if(!(getBusinessObject(element).isInput == true || getBusinessObject(element).isOutput == true)) {
+      if(getBusinessObject(element).available==1 && !(getBusinessObject(element).isInput == true || getBusinessObject(element).isOutput == true)) {
         c=c+1; } } 
 
       }); 
@@ -303,7 +378,8 @@ var d=0
   //0 ok , 1 problem
   function checkLevel1() {
 
-     a=checkDataState();
+    // a=checkDataState();
+    a=0;
     
     if(a!=0) {
 
@@ -315,43 +391,43 @@ var d=0
       document.getElementById("level1.1").innerHTML="";
     }
 
-    b=checkConnection();
+    b=checkConnection_1();
 
     if(b!=0) {
 
-      document.getElementById("level1.2").innerHTML = "Connect all the the (True) Data using a DataObjectAssociations";
+      document.getElementById("level1.2").innerHTML = "Connect all the the True Data using a DataAssociation";
 
     }
 
     else {
       document.getElementById("level1.2").innerHTML="";
+
+      c = checkInputOutput();
+      d = checkConnection_2();
+
+      if(c!=0 && d!=0) {
+
+          document.getElementById("level1.3").innerHTML = "Define input or output or connect to another activity";
+      }
+
+      else {
+
+        document.getElementById("level1.3").innerHTML="";
+      }
+
     }
-    
-    c=checkInputOutput();
 
-    if(c!=0) {
-
-      document.getElementById("level1.3").innerHTML = "Define input or output for all the DataObjectReference";
-
-    }
-
-    else {
-      document.getElementById("level1.3").innerHTML="";
-    }
-
-
-    if(a+b+c==0) { document.getElementById("level1").innerHTML="Level 1: 100%"; 
+    if(a+b+c==0 || a+b+d==0)  { document.getElementById("level1").innerHTML="Level 1: 100%"; 
 
       return 0;}
 
 
     else {
 
-    var percent=99;
+    var percent=100;
 
-    if(a!=0) {percent=percent-33;}
-    if(b!=0) {percent=percent-33;}
-    if(c!=0) {percent=percent-33;}
+    if(b!=0) {percent=percent-50;}
+    if(c!=0 && d!=0) {percent=percent-50;}
 
     document.getElementById("level1").innerHTML="Level 1: "+percent+"%" 
     return 1; }
