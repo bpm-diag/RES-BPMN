@@ -4,7 +4,7 @@ For running the tool, latest version of Chrome is recommended.
 
 Clone the repository using: 
 
-  - git clone https://github.com/bpm-diag/R-CMMN.git
+  - git clone https://github.com/bpm-diag/RES-BPMN
 
 Now perform the following steps to running the tool on your default browser.
 
