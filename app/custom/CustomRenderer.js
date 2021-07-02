@@ -367,7 +367,7 @@ export default class CustomRenderer extends BaseRenderer {
  }
 
 
-if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusinessObject(element), "bpmn:DataStoreReference")) && getBusinessObject(element).recoverable==0 && (getBusinessObject(element).child==null || getBusinessObject(element).child==undefined)) {
+/*if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusinessObject(element), "bpmn:DataStoreReference")) && getBusinessObject(element).recoverable==0 && (getBusinessObject(element).child==null || getBusinessObject(element).child==undefined)) {
 
 
         var text = svgCreate('text'); 
@@ -408,7 +408,7 @@ if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusiness
       svgAppend(parentNode, texttt); 
 
 
-      }
+      }*/
 
 
 
@@ -809,7 +809,7 @@ if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusiness
 
     }
 
-     if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusinessObject(element), "bpmn:DataStoreReference"))) {
+     if((is(getBusinessObject(element), "bpmn:DataObjectReference"))) {
 
       var text = svgCreate('text'); 
 
@@ -836,26 +836,29 @@ if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusiness
       if(getBusinessObject(element).available == 1) {
         datastate_id = "True,"; }
       else {
-        datastate_id = "False,";
+        datastate_id = "";
       }
       
 
       if( getBusinessObject(element).risk == 1) {
-        risk_id = "L,";
+        risk_id = "L";
+      }
+      else if( getBusinessObject(element).risk == 0) {
+        risk_id = "N";
       }
       else if( getBusinessObject(element).risk == 2) {
-        risk_id = "M,";
+        risk_id = "M";
       }
       else if( getBusinessObject(element).risk == 3) {
-        risk_id = "H,";
+        risk_id = "H";
       }
       else {
-        risk_id = "U,";
+        risk_id = "U";
       }
       
 
       if(getBusinessObject(element).quality != undefined) {
-        quality_id = getBusinessObject(element).quality + '%,';
+        quality_id = ", " + getBusinessObject(element).quality + '%';
       }
       else {
         quality_id = '';
@@ -869,14 +872,14 @@ if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusiness
             svgAttr(text, {
               fill: '#000',
               fontSize: '12.5px',
-              transform: 'translate(-20,' + x + ')'
+              transform: 'translate(-13,' + x + ')'
             }); }
 
       else {
         svgAttr(text, {
               fill: '#000',
               fontSize: '12.5px',
-              transform: 'translate(-35,' + x + ')'
+              transform: 'translate(-27,' + x + ')'
             });
       }
 
@@ -884,10 +887,104 @@ if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusiness
 
 
      
-      prop = '< ' + datastate_id + ' ' + risk_id + ' ' + quality_id + ' ' + offset_id + ' >';
+      prop = '< ' + datastate_id + ' ' + risk_id  + quality_id + ' ' + ' >';
+     
+
+      if(getBusinessObject(element).available == 1) {
       svgAppend(text, document.createTextNode(prop)); 
     
-      svgAppend(parentNode, text);
+      svgAppend(parentNode, text); }
+
+
+    }
+
+
+
+  if((is(getBusinessObject(element), "bpmn:DataStoreReference"))) {
+
+      var text = svgCreate('text'); 
+
+      var len = (getBusinessObject(element).name).length;
+
+      var ceil = Math.ceil(len / 14);
+
+     /* console.log(len);
+      console.log(Math.ceil(len / 14));*/
+
+      var x = 0;
+
+      if(ceil == 0) { x = '65';}
+      if(ceil == 1) { x = '80';}
+      else {
+        x = 65 + (ceil * 15);
+      }
+
+      x = String(x);
+
+      
+
+
+      if(getBusinessObject(element).available == 1) {
+        datastate_id = "True,"; }
+      else {
+        datastate_id = "";
+      }
+      
+
+      if( getBusinessObject(element).risk == 1) {
+        risk_id = "L";
+      }
+      else if( getBusinessObject(element).risk == 2) {
+        risk_id = "M";
+      }
+      else if( getBusinessObject(element).risk == 3) {
+        risk_id = "H";
+      }
+      else if( getBusinessObject(element).risk == 0) {
+        risk_id = "N";
+      }
+      else {
+        risk_id = "U";
+      }
+      
+
+      if(getBusinessObject(element).quality != undefined) {
+        quality_id = ", " + getBusinessObject(element).quality + '%';
+      }
+      else {
+        quality_id = '';
+      }
+
+    
+      offset_id = getBusinessObject(element).offset + '%';
+
+
+      if(quality_id == '') {
+            svgAttr(text, {
+              fill: '#000',
+              fontSize: '12.5px',
+              transform: 'translate(-5,' + x + ')'
+            }); }
+
+      else {
+        svgAttr(text, {
+              fill: '#000',
+              fontSize: '12.5px',
+              transform: 'translate(-18,' + x + ')'
+            });
+      }
+
+      svgClasses(text).add('djs-label'); 
+
+
+     
+      prop = '< ' + datastate_id + ' ' + risk_id  + quality_id + ' ' + ' >';
+     
+
+      if(getBusinessObject(element).available == 1) {
+      svgAppend(text, document.createTextNode(prop)); 
+    
+      svgAppend(parentNode, text); }
 
 
     }
