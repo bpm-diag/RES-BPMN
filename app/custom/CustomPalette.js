@@ -21,6 +21,7 @@ export default class CustomPalette {
       const element = elementFactory.createShape({ type: 'bpmn:SubProcess' });
 
      element.businessObject.di.isExpanded=true;
+     element.businessObject.triggeredByEvent=true;
      element.collapsed=false;
      element.height=200;
      element.width=350;
