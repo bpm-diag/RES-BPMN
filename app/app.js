@@ -147,7 +147,7 @@ function checkConnection_2() {
   var arrr = [];
 
   var elements = elementRegistry.filter(function(element) {
-  if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
+  if(is(element, 'bpmn:DataObjectReference')) {
 
       var businessObject = getBusinessObject(element);
 
@@ -277,15 +277,43 @@ function checkConnection_1() {
 function checkInputOutput() {
 
 
-   var c=0
-
+   var c=0;
+   
    var elements = elementRegistry.filter(function(element) {
-  if(is(element, 'bpmn:DataObjectReference')) {
+  if(is(element, 'bpmn:DataObjectReference') && (getBusinessObject(element).isInput == true || getBusinessObject(element).isOutput == true) && getBusinessObject(element).available == 1 && (getBusinessObject(element).boss==1 || getBusinessObject(element).boss==undefined) && element.type != "label") {
 
-      if(getBusinessObject(element).available==1 && !(getBusinessObject(element).isInput == true || getBusinessObject(element).isOutput == true)) {
-        c=c+1; } } 
+      c=1;
+
+      if(getBusinessObject(element).isInput == true) {
+
+        for (let i=0; i<element.outgoing.length; i++) {
+
+            if(element.outgoing[i].type=="bpmn:DataInputAssociation") { 
+
+               c=0; 
+            }
+        } 
+    }
+
+      if(getBusinessObject(element).isOutput == true) {
+
+
+        for (let i=0; i<element.incoming.length; i++) {
+
+            if(element.incoming[i].type=="bpmn:DataOutputAssociation") { 
+
+              c=0;  
+            }
+        } 
+
+        }  
+
+
+      }
 
       }); 
+
+   console.log(c);
 
    return c;  }
 
@@ -298,7 +326,7 @@ function checkQuality() {
     
      if(getBusinessObject(element).boss==1 || getBusinessObject(element).boss==undefined) {
 
-      if(getBusinessObject(element).quality == undefined) {
+      if(getBusinessObject(element).quality == undefined && getBusinessObject(element).available==1) {
         d=d+1 } }  }
 
       }); 
@@ -315,7 +343,7 @@ function checkRisk() {
 
     if(getBusinessObject(element).boss==1 || getBusinessObject(element).boss==undefined) {
     
-      if(getBusinessObject(element).risk == undefined) {
+      if((getBusinessObject(element).risk == undefined || getBusinessObject(element).risk == -1)  && getBusinessObject(element).available==1) {
         d=d+1 } } }
 
       }); 
@@ -331,7 +359,7 @@ function check_X () {
   var elements = elementRegistry.filter(function(element) {
   if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
 
-    if((element.businessObject.boss==1 || element.businessObject.boss==undefined) && element.businessObject.available == 1 ) {
+    if((element.businessObject.boss==1 || element.businessObject.boss==undefined) && element.businessObject.available == 1 && element.businessObject.risk != 0) {
 
         count = count +1;
 
@@ -355,9 +383,26 @@ var d=0
    var elements = elementRegistry.filter(function(element) {
   if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
     
-     if(getBusinessObject(element).boss!=1 || getBusinessObject(element).boss!=undefined) {
+     if((getBusinessObject(element).boss!=1 || getBusinessObject(element).boss!=undefined) && getBusinessObject(element).available==1)  {
 
       if(getBusinessObject(element).quality == undefined) {
+        d=d+1 } }  }
+
+      }); 
+
+   return d;  }
+
+function checkRisk_child() {
+
+
+var d=0
+   
+   var elements = elementRegistry.filter(function(element) {
+  if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
+    
+     if((getBusinessObject(element).boss!=1 || getBusinessObject(element).boss!=undefined) && getBusinessObject(element).available==1) {
+
+      if(getBusinessObject(element).risk == undefined || getBusinessObject(element).risk == -1) {
         d=d+1 } }  }
 
       }); 
@@ -400,35 +445,38 @@ var d=0
     }
 
     else {
-      document.getElementById("level1.2").innerHTML="";
+      document.getElementById("level1.2").innerHTML=""; }
+
+  
+    if(b==0) {
 
       c = checkInputOutput();
       d = checkConnection_2();
 
-      if(c!=0 && d!=0) {
+      if(c==0 && d==0) {
 
-          document.getElementById("level1.3").innerHTML = "Define input or output or connect to another activity";
+        
+        document.getElementById("level1.3").innerHTML="";
       }
 
       else {
 
-        document.getElementById("level1.3").innerHTML="";
+        document.getElementById("level1.3").innerHTML = "Define input or output or connect to another activity";
       }
 
     }
 
-    if(a+b+c==0 || a+b+d==0)  { document.getElementById("level1").innerHTML="Level 1: 100%"; 
+    if(a+b+c+d==0)  { document.getElementById("level1").innerHTML="Level 1: 100%"; 
 
       return 0;}
 
 
     else {
 
-    var percent=100;
+    var percent=50;
 
     if(b!=0) {percent=percent-50;}
-    if(c!=0 && d!=0) {percent=percent-50;}
-
+    if(c!=0 && d!=0) {percent=50;}
     document.getElementById("level1").innerHTML="Level 1: "+percent+"%" 
     return 1; }
 
@@ -441,7 +489,7 @@ var d=0
 
   function checkLevel2() {
 
-   var  d=checkQuality();
+  var  d=checkQuality();
   var e = checkRisk();
     
     if(d!=0) {
@@ -486,6 +534,7 @@ var d=0
 
   var  f=check_X();
   var  g=checkQuality_child();
+  var  h = checkRisk_child();
     
     if(f!=0) {
 
@@ -507,17 +556,30 @@ var d=0
       document.getElementById("level3.2").innerHTML="";
     }
 
-    if(f+g==0) { document.getElementById("level3").innerHTML="Level 3: 100%"; 
+    if(h!=0) {
+
+      document.getElementById("level3.3").innerHTML = "Set the risk for all the AlternativeData";
+
+    }
+
+    else {
+      document.getElementById("level3.3").innerHTML="";
+    }
+
+    if(f+g+h==0) { document.getElementById("level3").innerHTML="Level 3: 100%"; 
 
       return 0;}
 
 
     else {
 
-    var percent=100;
+    var percent=99;
 
-    if(f!=0) {percent=percent-50;}
+    if(f!=0) {percent=0;}
+    else {
+    percent = 100;
     if(g!=0) {percent=percent-50;}
+    if(h!=0) {percent=percent-50;} }
 
     document.getElementById("level3").innerHTML="Level 3: "+percent+"%" 
     return 1; }
@@ -569,6 +631,7 @@ var d=0
       document.getElementById("level3").innerHTML="Level 3: Complete level 2";
       document.getElementById("level3.1").innerHTML="";
       document.getElementById("level3.2").innerHTML="";
+      document.getElementById("level3.3").innerHTML="";
 
       document.getElementById("level4").innerHTML="Level 4: Complete level 3";
       document.getElementById("level4.1").innerHTML="";
@@ -580,6 +643,7 @@ var d=0
       document.getElementById("level3").innerHTML="Level 3: Complete level 2";
       document.getElementById("level3.1").innerHTML="";
       document.getElementById("level3.2").innerHTML="";
+      document.getElementById("level3.3").innerHTML="";
 
       document.getElementById("level4").innerHTML="Level 4: Complete level 3";
       document.getElementById("level4.1").innerHTML="";
@@ -689,6 +753,11 @@ function getRecoveryName() {
   var elements = elementRegistry.filter(function(element) {
   if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
 
+    if(element.businessObject.recoverable==1 && (element.businessObject.boss==1 || element.businessObject.boss==undefined) && (element.businessObject.name==undefined || element.businessObject.name=="")) {
+
+      alert("Set a name for all the recoverable object!");
+    }
+
     if(element.businessObject.recoverable==1 && (element.businessObject.boss==1 || element.businessObject.boss==undefined) && !l.includes(element.businessObject.name)) {
 
       l.push(element.businessObject.name);
@@ -711,12 +780,20 @@ for(let i=0; i<l.length; i++) {
   var name = l[i];
 
   var elements = elementRegistry.filter(function(element) {
+
+  if(is(element, 'bpmn:SubProcess') && getBusinessObject(element).di.isExpanded && (getBusinessObject(element).name=="" || getBusinessObject(element).name==undefined)) {
+
+    alert("Set a name for all the Data driven error event!");
+  }
+
+  else {
+
   if(is(element, 'bpmn:SubProcess') && getBusinessObject(element).di.isExpanded && getBusinessObject(element).name.includes(name)) {
 
     a  = checkInsideSubProcess(getBusinessObject(element));
     flag = flag + a;
     count = count + 1;
-}
+} }
 
 
 }); }
