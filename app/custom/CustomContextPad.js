@@ -868,7 +868,7 @@ function setDataState(event, element, result) {
     }
 
 
-  if (isAny(businessObject, [ 'bpmn:DataObjectReference', 'bpmn:DataStoreReference' ]) && businessObject.noAlternative!=1 &&  businessObject.available==1 && !(is(businessObject.child, [ 'bpmn:DataObjectReference']))  && !(is(businessObject.child, [ 'bpmn:DataStoreReference'])) ) {
+  if (isAny(businessObject, [ 'bpmn:DataObjectReference', 'bpmn:DataStoreReference' ]) && businessObject.risk != 0 && businessObject.noAlternative!=1 &&  businessObject.available==1 && !(is(businessObject.child, [ 'bpmn:DataObjectReference']))  && !(is(businessObject.child, [ 'bpmn:DataStoreReference'])) ) {
     assign(actions, {
       'append.alternative': {
         group: 'model',
@@ -962,7 +962,7 @@ function setDataState(event, element, result) {
               
               return;  } } } }); }
 
-  if (isAny(businessObject, [ 'bpmn:DataObjectReference', 'bpmn:DataStoreReference' ])) {
+  if (isAny(businessObject, [ 'bpmn:DataObjectReference', 'bpmn:DataStoreReference' ]) && businessObject.available==1) {
     assign(actions, {
        'append.risk': {
         group: 'bo',
@@ -973,6 +973,14 @@ function setDataState(event, element, result) {
           click: function(event, element) {
 
             if (getBusinessObject(element).risk==-1 || getBusinessObject(element).risk==undefined) {
+             
+               setRisk(event,element,0); 
+               
+               return;
+
+            }
+
+            if (getBusinessObject(element).risk== 0) {
              
                setRisk(event,element,1); 
                
@@ -1011,7 +1019,7 @@ function setDataState(event, element, result) {
     });
   }
 
-  if (isAny(businessObject, [ 'bpmn:DataObjectReference', 'bpmn:DataStoreReference' ])) {
+  if (isAny(businessObject, [ 'bpmn:DataObjectReference', 'bpmn:DataStoreReference' ]) && businessObject.available==1) {
     assign(actions, {
        'append.quality': {
         group: 'bo',
