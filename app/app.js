@@ -461,9 +461,13 @@ var d=0
 
       else {
 
-        document.getElementById("level1.3").innerHTML = "Define input or output or connect to another activity";
+        document.getElementById("level1.3").innerHTML = "Define I/O or connect to another activity all the True Data";
       }
 
+    }
+
+    else {
+    	document.getElementById("level1.3").innerHTML="";
     }
 
     if(a+b+c+d==0)  { document.getElementById("level1").innerHTML="Level 1: 100%"; 
@@ -494,7 +498,7 @@ var d=0
     
     if(d!=0) {
 
-      document.getElementById("level2.1").innerHTML = "Set the quality for each data";
+      document.getElementById("level2.1").innerHTML = "Set the quality for each True Data";
 
     }
 
@@ -504,7 +508,7 @@ var d=0
 
     if(e!=0) {
 
-      document.getElementById("level2.2").innerHTML = "Set the risk for each data";
+      document.getElementById("level2.2").innerHTML = "Set the risk for each True Data";
 
     }
 
@@ -538,7 +542,7 @@ var d=0
     
     if(f!=0) {
 
-      document.getElementById("level3.1").innerHTML = "Set the Alternative Data";
+      document.getElementById("level3.1").innerHTML = "Define an Alternative Data where possible";
 
     }
 
@@ -548,7 +552,7 @@ var d=0
 
     if(g!=0) {
 
-      document.getElementById("level3.2").innerHTML = "Set the quality for all the AlternativeData";
+      document.getElementById("level3.2").innerHTML = "Set the quality for each AlternativeData";
 
     }
 
@@ -558,7 +562,7 @@ var d=0
 
     if(h!=0) {
 
-      document.getElementById("level3.3").innerHTML = "Set the risk for all the AlternativeData";
+      document.getElementById("level3.3").innerHTML = "Set the risk for each AlternativeData";
 
     }
 
@@ -593,7 +597,7 @@ var d=0
     
     if(h!=0) {
 
-      document.getElementById("level4.1").innerHTML = "Create a recovery stage where is possibile";
+      document.getElementById("level4.1").innerHTML = "Create a recovery stage where possible";
 
     }
 
@@ -749,13 +753,14 @@ bpmnModeler.on('element.dblclick', function(event) {
 function getRecoveryName() {
 
   var l =  [];
+  var f = 0;
 
   var elements = elementRegistry.filter(function(element) {
   if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
 
     if(element.businessObject.recoverable==1 && (element.businessObject.boss==1 || element.businessObject.boss==undefined) && (element.businessObject.name==undefined || element.businessObject.name=="")) {
 
-      alert("Set a name for all the recoverable object!");
+      f = 1;
     }
 
     if(element.businessObject.recoverable==1 && (element.businessObject.boss==1 || element.businessObject.boss==undefined) && !l.includes(element.businessObject.name)) {
@@ -764,7 +769,11 @@ function getRecoveryName() {
     }
 
 
-} }); return l;}
+} }); 
+
+  if(f==1) { alert("Set a name for all the recoverable object!"); }
+
+  return l;}
 
 
 function checkSubProcess() {
@@ -775,6 +784,8 @@ var count = 0;
 var flag = 0;
 var a;
 
+var f = 0;
+
 for(let i=0; i<l.length; i++) {
 
   var name = l[i];
@@ -783,7 +794,7 @@ for(let i=0; i<l.length; i++) {
 
   if(is(element, 'bpmn:SubProcess') && getBusinessObject(element).di.isExpanded && (getBusinessObject(element).name=="" || getBusinessObject(element).name==undefined)) {
 
-    alert("Set a name for all the Data driven error event!");
+    f=1;
   }
 
   else {
@@ -797,6 +808,8 @@ for(let i=0; i<l.length; i++) {
 
 
 }); }
+
+  if(f==1) { alert("Set a name for all the Data driven error event!"); }
 
 
   if(count == l.length && flag == 0) { return 0; }
