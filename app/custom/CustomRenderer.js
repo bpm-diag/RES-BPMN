@@ -113,11 +113,21 @@ export default class CustomRenderer extends BaseRenderer {
 
          var text = svgCreate('text'); 
 
+      if((is(getBusinessObject(element), "bpmn:DataObjectReference"))) {
+
       svgAttr(text, {
         fill: '#000',
         height: '50px',
         transform: 'translate(22, 46)'
-      });
+      }); }
+
+      if((is(getBusinessObject(element), "bpmn:DataStoreReference"))) {
+
+      svgAttr(text, {
+        fill: '#000',
+        height: '50px',
+        transform: 'translate(35, 46)'
+      }); }
 
       svgClasses(text).add('djs-label'); 
       
@@ -177,11 +187,21 @@ export default class CustomRenderer extends BaseRenderer {
 
          var text = svgCreate('text'); 
 
+      if((is(getBusinessObject(element), "bpmn:DataObjectReference"))) {
+
       svgAttr(text, {
         fill: '#000',
         height: '50px',
         transform: 'translate(22, 46)'
-      });
+      }); }
+
+      if((is(getBusinessObject(element), "bpmn:DataStoreReference"))) {
+
+      svgAttr(text, {
+        fill: '#000',
+        height: '50px',
+        transform: 'translate(35, 46)'
+      }); }
 
       svgClasses(text).add('djs-label'); 
       
@@ -257,11 +277,21 @@ export default class CustomRenderer extends BaseRenderer {
 
          var text = svgCreate('text'); 
 
+      if((is(getBusinessObject(element), "bpmn:DataObjectReference"))) {
+
       svgAttr(text, {
         fill: '#000',
         height: '50px',
         transform: 'translate(22, 46)'
-      });
+      }); }
+
+      if((is(getBusinessObject(element), "bpmn:DataStoreReference"))) {
+
+      svgAttr(text, {
+        fill: '#000',
+        height: '50px',
+        transform: 'translate(35, 46)'
+      }); }
 
       svgClasses(text).add('djs-label'); 
       
