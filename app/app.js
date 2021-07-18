@@ -97,6 +97,7 @@ bpmnModeler.importXML(diagramXML, (err) => {
     console.error(err);
   }
 
+
   bpmnModeler.on('element.contextmenu', HIGH_PRIORITY, (event) => {
     event.originalEvent.preventDefault();
     event.originalEvent.stopPropagation();
@@ -110,11 +111,47 @@ bpmnModeler.importXML(diagramXML, (err) => {
     }
 
     var businessObject = getBusinessObject(element);  
-    console.log(businessObject)
+    //console.log(businessObject)
+
+});
+
+
+
+bb.addEventListener("click", function(){ 
+
+      bpmnModeler.saveXML({ format: true }, function(err, xml) {
+      // log the current xml content to the browser console
+      //console.log(xml);
+
+       // Start file download.
+      download("diagram.bpmn",xml);
+
+
+    });
+
+
      
 
-  });
 });
+
+
+
+});
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+
 
 
 var elementRegistry = bpmnModeler.get('elementRegistry');
