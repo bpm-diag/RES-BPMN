@@ -28,6 +28,12 @@ html, body, #container {
   position: absolute;
 }
 
+#bb {
+  bottom: 20px;
+  left: 220px;
+  position: absolute;
+}
+
 #quality-assurance {
   color: #111;
   left: 30%;
