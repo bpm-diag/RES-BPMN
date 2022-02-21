@@ -65,26 +65,26 @@ const bpmnModeler = new BpmnModeler({
   additionalModules: [
     customControlsModule,
     AlignElementsModule,
-	  AutoScrollModule,
-	  AutoResizeModule,
-	  BendpointsModule,
-	  ContextPadModule,
-	  CopyPasteModule,
-	  CreateModule,
-	  DistributeElementsModule,
-	  EditorActionsModule,
-	  InteractionEventsModule,
-	  KeyboardModule,
-	  KeyboardMoveSelectionModule,
-	  LabelEditingModule,
-	  ModelingModule,
-	  MoveModule,
-	  PaletteModule,
-	  ReplacePreviewModule,
-	  ResizeModule,
-	  SearchModule,
+    AutoScrollModule,
+    AutoResizeModule,
+    BendpointsModule,
+    ContextPadModule,
+    CopyPasteModule,
+    CreateModule,
+    DistributeElementsModule,
+    EditorActionsModule,
+    InteractionEventsModule,
+    KeyboardModule,
+    KeyboardMoveSelectionModule,
+    LabelEditingModule,
+    ModelingModule,
+    MoveModule,
+    PaletteModule,
+    ReplacePreviewModule,
+    ResizeModule,
+    SearchModule,
     CustomRules
-	  //customModule
+    //customModule
   ],
   moddleExtensions: {
     ds: dsExtension
@@ -110,14 +110,28 @@ bpmnModeler.importXML(diagramXML, (err) => {
       return;
     }
 
-    var businessObject = getBusinessObject(element);  
-    //console.log(businessObject)
+    var businessObject = getBusinessObject(element);
+
+    console.log(businessObject);
 
 });
 
 
 
 bb.addEventListener("click", function(){ 
+
+      var elements = elementRegistry.filter(function(element) {
+        
+        var businessObject = getBusinessObject(element);
+
+        //businessObject.extensionElements = "ciao";
+
+        
+
+
+
+
+  });
 
       bpmnModeler.saveXML({ format: true }, function(err, xml) {
       // log the current xml content to the browser console
@@ -137,6 +151,59 @@ bb.addEventListener("click", function(){
 
 
 });
+
+
+
+imp.addEventListener("click", function(){ 
+
+      document.getElementById('file').click();
+
+    });
+
+
+file.onchange = function(event) {
+  
+  handleFileSelect(event); }
+
+function handleFileSelect(event) {
+  const reader = new FileReader()
+  reader.onload = handleFileLoad;
+  reader.readAsText(event.target.files[0])
+}
+
+function handleFileLoad(event) {
+  openDiagram(event.target.result);
+}
+
+
+
+function openDiagram(diagram) {
+
+  bpmnModeler.importXML(diagram, function(err) {
+    if (err) {
+
+      alert('could not import BPMN 2.0 XML, see console');
+      return console.log('could not import BPMN 2.0 XML', err);
+    }
+
+    console.log('success!');
+
+   var elements = elementRegistry.filter(function(element) {
+  if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference') && (getBusinessObject(element).boss.$type=="bpmn:DataObjectReference" && getBusinessObject(element).boss.$type=="bpmn:DataStoreReference"))
+    
+      
+      if(!getBusinessObject(element).boss)
+
+
+      getBusinessObject(element).boss = 1;
+
+
+      }); 
+
+
+    bpmnModeler.get('canvas').zoom('fit-viewport');
+  });
+}
 
 function download(filename, text) {
   var element = document.createElement('a');
@@ -504,7 +571,7 @@ var d=0
     }
 
     else {
-    	document.getElementById("level1.3").innerHTML="";
+      document.getElementById("level1.3").innerHTML="";
     }
 
     if(a+b+c+d==0)  { document.getElementById("level1").innerHTML="Level 1: 100%"; 
@@ -717,74 +784,6 @@ var d=0
   dialog.classList.add('hidden');
 });
 
-/*function getExtension(element, type) {
-  if (!element.extensionElements) {
-    return null;
-  }
-
-  return element.extensionElements.filter(function(e) {
-    return e.$instanceOf(type);
-  })[0];
-}
-
-
-bpmnModeler.on('element.click', function(event) {
-  var element = event.element,
-      moddle = bpmnModeler.get('moddle'),
-
-      // the underlaying BPMN 2.0 element
-      businessObject = element.businessObject,
-      analysis,
-      score,
-      message;
-
-  analysis = getExtension(businessObject, 'ds:DataState');
-  score = businessObject.available;
-
-  if (isNaN(score)) {
-    message = 'No suitability score yet, dblclick to assign one';
-  } else {
-    message = 'Diagram element has a suitability score of ' + score;
-  }
-
-  window.alert(message);
-});
-
-
-
-
-
-bpmnModeler.on('element.dblclick', function(event) {
- 
- var element = event.element,
-      moddle = bpmnModeler.get('moddle'),
-
- businessObject = element.businessObject,
-      analysis,
-      score,
-      message;
-
-  analysis = getExtension(businessObject, 'ds:DataState');
-
-  var result = parseFloat(window.prompt('assign a new suitability score to ' + businessObject.id), 10);
-
-  if (isNaN(result)) {
-    return;
-  }
-
-  businessObject.available = result;
-
- if (!analysis) {
-    analysis = moddle.create('qa:AnalysisDetails');
-
-    if (!businessObject.extensionElements) {
-      businessObject.extensionElements = moddle.create('bpmn:ExtensionElements');
-    }
-
-    businessObject.extensionElements.get('values').push(analysis);
-  } 
-
-}); */
 
 
 function getRecoveryName() {
@@ -912,4 +911,3 @@ return 1;
 
 
 }
-

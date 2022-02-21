@@ -1,5 +1,5 @@
 {
-  "name": "DataState",
+  "name": "dataState",
   "uri": "http://some-company/schema/bpmn/ds",
   "prefix": "ds",
   "xml": {
@@ -9,8 +9,8 @@
     {
       "name": "DataState",
       "extends": [
-		"bpmn:DataStoreReference",
-		"bpmn:DataObjectReference"
+    "bpmn:DataStoreReference",
+    "bpmn:DataObjectReference"
       ],
       "properties": [
         {
@@ -18,71 +18,87 @@
           "isAttr": true,
           "type": "Integer"
         },
-		{
+    {
           "name": "isInput",
-          "isAttr": false,
-          "type": "Integer"
+          "isAttr": true,
+          "type": "Boolean"
         },
-		{
+    {
           "name": "isOutput",
-          "isAttr": false,
-          "type": "Integer"
+          "isAttr": true,
+          "type": "Boolean"
         },
-		{
+    {
           "name": "risk",
-          "isAttr": false,
+          "isAttr": true,
           "type": "Integer"
         },
-		{
+    {
           "name": "quality",
-          "isAttr": false,
+          "isAttr": true,
           "type": "Integer"
         },
-		{
+    {
           "name": "isParent",
           "isAttr": true,
           "type": "Integer"
         },
-		{
+    {
           "name": "isAlternative",
           "isAttr": true,
           "type": "Integer"
         },
-		{
+    {
           "name": "offset",
           "isAttr": true,
           "type": "Integer"
         },
-		{
+    {
           "name": "child",
-          "isAttr": false,
-          "type": "DataObjectReference"
+          "isAttr": true, 
+          "isReference": true,
+          "type": "bpmn:DataObjectReference"
         },
-		{
+    {
           "name": "fatherr",
           "isAttr": true,
-          "type": "DataObjectReference"
+          "isReference": true,
+          "type": "bpmn:DataObjectReference"
         },
-		{
+    {
           "name": "boss",
-          "isAttr": false,
-          "type": "DataObjectReference"
+          "isAttr": true,
+          "isReference": true,
+          "type": "bpmn:DataObjectReference"
         },
-		{
+    {
           "name": "noAlternative",
           "isAttr": true,
           "type": "Integer"
+
+        },
+    {
+          "name": "recoverable",
+          "isAttr": true,
+          "type": "Integer"
+
         }
+
       ]
     },
-	{
+  {
       "name": "DataErrorDriven",
       "extends": [
-		"bpmn:StartEvent"
+    "bpmn:StartEvent"
       ],
       "properties": [
         {
           "name": "available",
+          "isAttr": true,
+          "type": "Integer"
+        },
+      {
+          "name": "icon",
           "isAttr": true,
           "type": "Integer"
         }

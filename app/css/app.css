@@ -28,9 +28,15 @@ html, body, #container {
   position: absolute;
 }
 
-#bb {
+#imp {
   bottom: 20px;
   left: 220px;
+  position: absolute;
+}
+
+#bb {
+  bottom: 20px;
+  left: 303px;
   position: absolute;
 }
 
