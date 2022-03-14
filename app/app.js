@@ -524,6 +524,13 @@ var d=0
 
   
 
+  function checkLevel0() {
+
+    document.getElementById("level0").innerHTML="True"; 
+    document.getElementById("level0").style.color = "#0cab26";
+  }
+  
+
   //0 ok , 1 problem
   function checkLevel1() {
 
@@ -574,18 +581,26 @@ var d=0
       document.getElementById("level1.3").innerHTML="";
     }
 
-    if(a+b+c+d==0)  { document.getElementById("level1").innerHTML="Level 1: 100%"; 
+    if(a+b+c+d==0)  { 
 
-      return 0;}
+      document.getElementById("level1").innerHTML="True"; 
+      document.getElementById("level1").style.color = "#0cab26";
+
+      return 0;
+
+    }
 
 
     else {
 
-    var percent=50;
+    /*var percent=50;
 
     if(b!=0) {percent=percent-50;}
-    if(c!=0 && d!=0) {percent=50;}
-    document.getElementById("level1").innerHTML="Level 1: "+percent+"%" 
+    if(c!=0 && d!=0) {percent=50;}*/
+
+    document.getElementById("level1").innerHTML="False" 
+    document.getElementById("level1").style.color = "#c20a0a";
+
     return 1; }
 
   }
@@ -620,19 +635,24 @@ var d=0
       document.getElementById("level2.2").innerHTML="";
     }
 
-    if(d+e==0) { document.getElementById("level2").innerHTML="Level 2: 100%"; 
+    if(d+e==0) {
+
+      document.getElementById("level2").innerHTML="True"; 
+      document.getElementById("level2").style.color = "#0cab26";
 
       return 0;}
 
 
     else {
 
-    var percent=100;
+    /*var percent=100;
 
     if(d!=0) {percent=percent-50;}
-    if(e!=0) {percent=percent-50;}
+    if(e!=0) {percent=percent-50;}*/
 
-    document.getElementById("level2").innerHTML="Level 2: "+percent+"%" 
+      document.getElementById("level2").innerHTML="False" 
+      document.getElementById("level2").style.color = "#c20a0a";
+
     return 1; }
 
 
@@ -674,22 +694,27 @@ var d=0
       document.getElementById("level3.3").innerHTML="";
     }
 
-    if(f+g+h==0) { document.getElementById("level3").innerHTML="Level 3: 100%"; 
+    if(f+g+h==0) {
+
+      document.getElementById("level3").innerHTML="True"; 
+      document.getElementById("level3").style.color = "#0cab26"; 
 
       return 0;}
 
 
     else {
 
-    var percent=99;
+    /*var percent=99;
 
     if(f!=0) {percent=0;}
     else {
     percent = 100;
     if(g!=0) {percent=percent-50;}
-    if(h!=0) {percent=percent-50;} }
+    if(h!=0) {percent=percent-50;} }*/
 
-    document.getElementById("level3").innerHTML="Level 3: "+percent+"%" 
+    document.getElementById("level3").innerHTML="False" 
+    document.getElementById("level3").style.color = "#c20a0a";
+
     return 1; }
 
 
@@ -709,15 +734,21 @@ var d=0
       document.getElementById("level4.1").innerHTML="";
     }
 
-    if(h==0) { document.getElementById("level4").innerHTML="Level 4: 100%"; 
+    if(h==0) {
+
+      document.getElementById("level4").innerHTML="True"; 
+      document.getElementById("level4").style.color = "#0cab26";
 
       return 0;}
 
 
     else {
 
-    var percent = "0";
-    document.getElementById("level4").innerHTML="Level 4: "+percent+"%" 
+      var percent = "0";
+      
+      document.getElementById("level4").innerHTML="False" 
+      document.getElementById("level4").style.color = "#c20a0a";
+
     return 1; }
 
 
@@ -726,40 +757,48 @@ var d=0
  
   button.addEventListener("click", function(){ 
 
+      checkLevel0();
+
       var l1 = checkLevel1();
       var l2 = checkLevel2();
       var l3 = checkLevel3();
 
     if(l1!=0) { 
 
-      document.getElementById("level2").innerHTML="Level 2: Complete level 1";
+      document.getElementById("level2").innerHTML="Complete level 1";
+      document.getElementById("level2").style.color = "#000000";
       document.getElementById("level2.1").innerHTML="";
       document.getElementById("level2.2").innerHTML="";
 
-      document.getElementById("level3").innerHTML="Level 3: Complete level 2";
+      document.getElementById("level3").innerHTML="Complete level 2";
+      document.getElementById("level3").style.color = "#000000";
       document.getElementById("level3.1").innerHTML="";
       document.getElementById("level3.2").innerHTML="";
       document.getElementById("level3.3").innerHTML="";
 
-      document.getElementById("level4").innerHTML="Level 4: Complete level 3";
+      document.getElementById("level4").innerHTML="Complete level 3";
+      document.getElementById("level4").style.color = "#000000";
       document.getElementById("level4.1").innerHTML="";
 
     }
       
     else if(l2!=0) {
 
-      document.getElementById("level3").innerHTML="Level 3: Complete level 2";
+      document.getElementById("level3").innerHTML="Complete level 2";
+      document.getElementById("level3").style.color = "#000000";
       document.getElementById("level3.1").innerHTML="";
       document.getElementById("level3.2").innerHTML="";
       document.getElementById("level3.3").innerHTML="";
 
-      document.getElementById("level4").innerHTML="Level 4: Complete level 3";
+      document.getElementById("level4").innerHTML="Complete level 3";
+      document.getElementById("level4").style.color = "#000000";
       document.getElementById("level4.1").innerHTML="";
     }
 
     else if(l3!=0){
 
-      document.getElementById("level4").innerHTML="Level 4: Complete level 3";
+      document.getElementById("level4").innerHTML="Complete level 3";
+      document.getElementById("level4").style.color = "#000000";
       document.getElementById("level4.1").innerHTML="";
        
     }
