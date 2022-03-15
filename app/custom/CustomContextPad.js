@@ -446,7 +446,7 @@ function setDataState(event, element, result) {
 
  }
 
-  function setQuality(event, element, result) {
+ function setQuality(event, element, result) {
 
  var businessObject = getBusinessObject(element);
  
@@ -469,6 +469,30 @@ function setDataState(event, element, result) {
     });
 
  }
+
+  /*function setQuality(event, element, result) {
+
+ var businessObject = getBusinessObject(element);
+ 
+
+  var result = result
+
+  if (isNaN(result) || result==undefined ) {
+    return;
+  }
+
+  businessObject.quality = result;
+
+
+    //businessObject.extensionElements.get('values').push(analysis);
+
+ 
+    modeling.updateProperties(element, {
+      quality: result
+     
+    });
+
+ }*/
   
 
   /**
@@ -868,7 +892,7 @@ function setDataState(event, element, result) {
     }
 
 
-  if (isAny(businessObject, [ 'bpmn:DataObjectReference', 'bpmn:DataStoreReference' ]) && businessObject.risk != 0 && businessObject.noAlternative!=1 &&  businessObject.available==1 && !(is(businessObject.child, [ 'bpmn:DataObjectReference']))  && !(is(businessObject.child, [ 'bpmn:DataStoreReference'])) ) {
+  if (isAny(businessObject, [ 'bpmn:DataObjectReference', 'bpmn:DataStoreReference' ]) && businessObject.risk != 0 && businessObject.quality != 3 && businessObject.noAlternative!=1 &&  businessObject.available==1 && !(is(businessObject.child, [ 'bpmn:DataObjectReference']))  && !(is(businessObject.child, [ 'bpmn:DataStoreReference'])) ) {
     assign(actions, {
       'append.alternative': {
         group: 'model',
@@ -1027,7 +1051,52 @@ function setDataState(event, element, result) {
         title: translate('Set the quality'),
         action: {
 
-          click: function(event, element) {
+        	click: function(event, element) {
+
+            if (getBusinessObject(element).quality==-1 || getBusinessObject(element).quality==undefined) {
+             
+               setQuality(event,element,0); 
+               
+               return;
+
+            }
+
+            if (getBusinessObject(element).quality== 0) {
+             
+               setQuality(event,element,1); 
+               
+               return;
+
+            }
+
+            if (getBusinessObject(element).quality== 1) {
+             
+               setQuality(event,element,2); 
+               
+               return;
+
+            }
+
+
+            if (getBusinessObject(element).quality==2) {
+             
+               setQuality(event,element,3); 
+               
+               return;
+
+            }
+
+            if (getBusinessObject(element).quality==3) {
+             
+               setQuality(event,element,-1); 
+               
+               return;
+
+            }
+            
+          }
+
+         /* click: function(event, element) {
 
 
 
@@ -1074,12 +1143,12 @@ function setDataState(event, element, result) {
                 else {  alert('The quality must be a number!'); }
                 
 
-             /* var x = prompt("Enter a string of letters");
+              //var x = prompt("Enter a string of letters");
 
-              if (parseInt(x)==5) {
-                alert("You did not enter a string");
-              }*/
-          }
+              //if (parseInt(x)==5) {
+                //alert("You did not enter a string");
+             // }
+          }*/
         }
       }
     });
