@@ -144,8 +144,6 @@ export default class CustomRenderer extends BaseRenderer {
         strokeDasharray: '6.5',
         strokeDashoffset: 5.5
       };
-
-
       var pathData = pathMap.getScaledPath('DATA_OBJECT_PATH', {
         xScaleFactor: 1,
         yScaleFactor: 1,
@@ -205,7 +203,7 @@ export default class CustomRenderer extends BaseRenderer {
 
       svgClasses(text).add('djs-label'); 
       
-      svgAppend(text, document.createTextNode("X")); 
+      //svgAppend(text, document.createTextNode("X")); 
 
       svgAppend(parentNode, path);
       
@@ -234,8 +232,6 @@ export default class CustomRenderer extends BaseRenderer {
         strokeDasharray: '6.5',
         strokeDashoffset: 5.5
       };
-
-
       var pathData = pathMap.getScaledPath('DATA_OBJECT_PATH', {
         xScaleFactor: 1,
         yScaleFactor: 1,
@@ -295,7 +291,7 @@ export default class CustomRenderer extends BaseRenderer {
 
       svgClasses(text).add('djs-label'); 
       
-      svgAppend(text, document.createTextNode("X")); 
+      //svgAppend(text, document.createTextNode("X")); 
 
       svgAppend(parentNode, path);
       
@@ -442,7 +438,7 @@ export default class CustomRenderer extends BaseRenderer {
 
 
 
-  if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusinessObject(element), "bpmn:DataStoreReference")) && getBusinessObject(element).recoverable==1 && (getBusinessObject(element).child==null || getBusinessObject(element).child==undefined)) {
+  if((is(getBusinessObject(element), "bpmn:DataObjectReference") || is(getBusinessObject(element), "bpmn:DataStoreReference")) && getBusinessObject(element).recoverable==1 && (getBusinessObject(element).boss==1 || getBusinessObject(element).boss == undefined)) {
 
 
         var text = svgCreate('text'); 
@@ -483,7 +479,6 @@ export default class CustomRenderer extends BaseRenderer {
 
 
       }
-
 
 
   if (is(getBusinessObject(element), "bpmn:DataStoreReference")) {
@@ -885,14 +880,30 @@ export default class CustomRenderer extends BaseRenderer {
       else {
         risk_id = "U";
       }
+
+      if( getBusinessObject(element).quality == 1) {
+        quality_id = "L";
+      }
+      else if( getBusinessObject(element).quality == 0) {
+        quality_id = "N";
+      }
+      else if( getBusinessObject(element).quality == 2) {
+        quality_id = "M";
+      }
+      else if( getBusinessObject(element).quality == 3) {
+        quality_id = "H";
+      }
+      else {
+        quality_id = "U";
+      }
       
 
-      if(getBusinessObject(element).quality != undefined) {
+      /*if(getBusinessObject(element).quality != undefined) {
         quality_id = ", " + getBusinessObject(element).quality + '%';
       }
       else {
         quality_id = '';
-      }
+      }*/
 
     
       offset_id = getBusinessObject(element).offset + '%';
@@ -917,7 +928,7 @@ export default class CustomRenderer extends BaseRenderer {
 
 
      
-      prop = '< ' + datastate_id + ' ' + risk_id  + quality_id + ' ' + ' >';
+      prop = '< ' + datastate_id + ' ' + risk_id  + ', ' + quality_id + ' ' + ' >';
      
 
       if(getBusinessObject(element).available == 1) {
@@ -976,14 +987,30 @@ export default class CustomRenderer extends BaseRenderer {
       else {
         risk_id = "U";
       }
+
+      if( getBusinessObject(element).quality == 1) {
+        quality_id = "L";
+      }
+      else if( getBusinessObject(element).quality == 0) {
+        quality_id = "N";
+      }
+      else if( getBusinessObject(element).quality == 2) {
+        quality_id = "M";
+      }
+      else if( getBusinessObject(element).quality == 3) {
+        quality_id = "H";
+      }
+      else {
+        quality_id = "U";
+      }
       
 
-      if(getBusinessObject(element).quality != undefined) {
+      /*if(getBusinessObject(element).quality != undefined) {
         quality_id = ", " + getBusinessObject(element).quality + '%';
       }
       else {
         quality_id = '';
-      }
+      }*/
 
     
       offset_id = getBusinessObject(element).offset + '%';
@@ -1008,7 +1035,7 @@ export default class CustomRenderer extends BaseRenderer {
 
 
      
-      prop = '< ' + datastate_id + ' ' + risk_id  + quality_id + ' ' + ' >';
+      prop = '< ' + datastate_id + ' ' + risk_id  + ', ' + quality_id + ' ' + ' >';
      
 
       if(getBusinessObject(element).available == 1) {
