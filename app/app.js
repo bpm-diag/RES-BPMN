@@ -421,7 +421,7 @@ function checkInputOutput() {
 
    return c;  }
 
-function checkQuality() {
+/*function checkQuality() {
 
    var d=0
    
@@ -432,6 +432,23 @@ function checkQuality() {
 
       if(getBusinessObject(element).quality == undefined && getBusinessObject(element).available==1) {
         d=d+1 } }  }
+
+      }); 
+
+   return d;  }*/
+
+
+function checkQuality() {
+
+   var d=0
+   
+   var elements = elementRegistry.filter(function(element) {
+  if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
+
+    if(getBusinessObject(element).boss==1 || getBusinessObject(element).boss==undefined) {
+    
+      if((getBusinessObject(element).quality == undefined || getBusinessObject(element).quality == -1)  && getBusinessObject(element).available==1) {
+        d=d+1 } } }
 
       }); 
 
@@ -463,7 +480,7 @@ function check_X () {
   var elements = elementRegistry.filter(function(element) {
   if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
 
-    if((element.businessObject.boss==1 || element.businessObject.boss==undefined) && element.businessObject.available == 1 && element.businessObject.risk != 0) {
+    if((element.businessObject.boss==1 || element.businessObject.boss==undefined) && element.businessObject.available == 1 && element.businessObject.risk != 0 && element.businessObject.quality != 3) {
 
         count = count +1;
 
@@ -479,7 +496,7 @@ function check_X () {
   return 1; }
 
 
-function checkQuality_child() {
+/*function checkQuality_child() {
 
 
 var d=0
@@ -494,7 +511,26 @@ var d=0
 
       }); 
 
+   return d;  }*/
+
+
+function checkQuality_child() {
+
+
+var d=0
+   
+   var elements = elementRegistry.filter(function(element) {
+  if(is(element, 'bpmn:DataObjectReference') || is(element, 'bpmn:DataStoreReference')) {
+    
+     if((getBusinessObject(element).boss!=1 || getBusinessObject(element).boss!=undefined) && getBusinessObject(element).available==1) {
+
+      if(getBusinessObject(element).quality == undefined || getBusinessObject(element).quality == -1) {
+        d=d+1 } }  }
+
+      }); 
+
    return d;  }
+
 
 function checkRisk_child() {
 
@@ -873,7 +909,7 @@ for(let i=0; i<l.length; i++) {
 
   else {
 
-  if(is(element, 'bpmn:SubProcess') && getBusinessObject(element).di.isExpanded && getBusinessObject(element).name.includes(name)) {
+  if(is(element, 'bpmn:SubProcess') && getBusinessObject(element).di.isExpanded && getBusinessObject(element).name == name + '_missed' ) {
 
     a  = checkInsideSubProcess(getBusinessObject(element));
     flag = flag + a;
