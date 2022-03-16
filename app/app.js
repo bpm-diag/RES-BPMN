@@ -587,7 +587,7 @@ var d=0
 
     if(b!=0) {
 
-      document.getElementById("level1.2").innerHTML = "Connect all the the True Data using a DataAssociation";
+      document.getElementById("level1.2").innerHTML = "Connect all the True Data using a DataAssociation";
 
     }
 
@@ -881,7 +881,7 @@ function getRecoveryName() {
 
 } }); 
 
-  if(f==1) { alert("Set a name for all the recoverable object!"); }
+  if(f==1) { alert("Set a name for all the recoverable parent object!"); }
 
   return l;}
 
@@ -909,9 +909,9 @@ for(let i=0; i<l.length; i++) {
 
   else {
 
-  if(is(element, 'bpmn:SubProcess') && getBusinessObject(element).di.isExpanded && getBusinessObject(element).name == name + '_missed' ) {
+  if(is(element, 'bpmn:SubProcess') && getBusinessObject(element).di.isExpanded && getBusinessObject(element).name == name + ' Recovery Procedure' ) {
 
-    a  = checkInsideSubProcess(getBusinessObject(element));
+    a  = checkInsideSubProcess(getBusinessObject(element),name);
     flag = flag + a;
     count = count + 1;
 } }
@@ -919,7 +919,7 @@ for(let i=0; i<l.length; i++) {
 
 }); }
 
-  if(f==1) { alert("Set a name for all the Data driven error event!"); }
+  if(f==1) { alert("Set a name for the recovery procedure"); }
 
 
   if(count == l.length && flag == 0) { return 0; }
@@ -931,17 +931,36 @@ return 1;
 }
 
 
-function checkInsideSubProcess(businessObject) {
+function checkInsideSubProcess(businessObject,name) {
 
 var array = businessObject.flowElements;
 var arr = [];
 var count=0;
+var start_event_array = [];
 
 if(array == undefined) return 1;
 
 for(let i=0; i<array.length; i++) {
 
+  if(array[i].$type == "bpmn:StartEvent") {
+  		start_event_array.push(array[i]);
+  }
+
   arr.push(array[i].$type); }
+
+if(start_event_array.length > 1) { 
+    return 1; }
+else {
+	if(start_event_array[0].name == undefined || start_event_array[0].name == '') {
+		alert("Set a name for the data driven error event");
+		return 1;
+	}
+	else {
+		if(start_event_array[0].name != name + ' unreliable') {
+			return 1;
+		}
+	}
+}
 
 if(arr.includes("bpmn:StartEvent")) {
 
