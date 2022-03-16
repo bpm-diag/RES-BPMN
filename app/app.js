@@ -875,7 +875,7 @@ function getRecoveryName() {
 
     if(element.businessObject.recoverable==1 && (element.businessObject.boss==1 || element.businessObject.boss==undefined) && !l.includes(element.businessObject.name)) {
 
-      l.push(element.businessObject.name);
+      l.push(element.businessObject.name.toLowerCase());
     }
 
 
@@ -909,9 +909,10 @@ for(let i=0; i<l.length; i++) {
 
   else {
 
-  if(is(element, 'bpmn:SubProcess') && getBusinessObject(element).di.isExpanded && getBusinessObject(element).name == name + ' Recovery Procedure' ) {
+  if(is(element, 'bpmn:SubProcess') && getBusinessObject(element).di.isExpanded && getBusinessObject(element).name.toLowerCase() == name.toLowerCase() + ' recovery procedure') {
 
     a  = checkInsideSubProcess(getBusinessObject(element),name);
+    console.log(getBusinessObject(element).name.toLowerCase());
     flag = flag + a;
     count = count + 1;
 } }
@@ -937,6 +938,7 @@ var array = businessObject.flowElements;
 var arr = [];
 var count=0;
 var start_event_array = [];
+console.log(name);
 
 if(array == undefined) return 1;
 
@@ -956,7 +958,8 @@ else {
 		return 1;
 	}
 	else {
-		if(start_event_array[0].name != name + ' unreliable') {
+		console.log(start_event_array[0].name.toLowerCase());
+		if(start_event_array[0].name.toLowerCase() != name + ' unreliable') {
 			return 1;
 		}
 	}
