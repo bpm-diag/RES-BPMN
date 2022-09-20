@@ -13,3 +13,9 @@ Now perform the following steps to running the tool on your default browser.
   - npm install
 
   - npm start
+
+# Publications
+
+- **Agostinelli, S., De Luzi, F., di Canito, U., Ferraro, J., Marrella A., Mecella M.**: _A Data-Centric Approach to Design Resilient-Aware Process Models in BPMN_. In: 20th Int. Conf. on Business Process Management (BPM Forum). pp. 38-54 (2022), https://doi.org/10.1007/978-3-031-16171-1_3.
+  - The online appendix is available at: https://drive.google.com/file/d/1fnT3_7UfHm3gvL2MJYzCzyDCBVAhI1sb/view?usp=sharing
+  - The demo of the tool in action is available at: https://vimeo.com/690242306.
